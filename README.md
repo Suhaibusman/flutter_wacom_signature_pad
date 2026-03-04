@@ -4,6 +4,10 @@ Windows-only Flutter plugin for Wacom STU-540 signature pads. It captures pen
 strokes from the device, renders a PNG signature, and can return Base64 or save
 to file.
 
+## Publisher
+- Developer: Muhammad Suhaib
+- Concept: Mustafa Ali Bamboat
+
 ## Features
 - Detect connected Wacom STU device
 - Capture pen strokes and signature

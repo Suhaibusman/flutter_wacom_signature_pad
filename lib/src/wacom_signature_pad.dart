@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'wacom_signature_pad_controller.dart';
 
+/// Signature capture widget for Wacom STU tablets on Windows.
 class WacomSignaturePad extends StatefulWidget {
+  /// Creates a Wacom signature pad widget.
   const WacomSignaturePad({
     super.key,
     required this.width,
@@ -36,32 +36,74 @@ class WacomSignaturePad extends StatefulWidget {
     this.deviceApplyLabel = 'Apply',
   });
 
+  /// Width of the on-screen signature area.
   final double width;
+
+  /// Height of the on-screen signature area.
   final double height;
+
+  /// Optional controller for programmatic control.
   final WacomSignaturePadController? controller;
+
+  /// Called with PNG bytes when the user applies the signature.
   final ValueChanged<Uint8List>? onSigned;
+
+  /// Called with Base64 PNG data when the user applies the signature.
   final ValueChanged<String>? onSignedBase64;
+
+  /// Called when the user cancels on the device or UI.
   final VoidCallback? onCancel;
+
+  /// Called when the pad is cleared.
   final VoidCallback? onClear;
+
+  /// Ink color for the on-screen preview.
   final Color penColor;
+
+  /// Stroke width for the on-screen preview.
   final double strokeWidth;
+
+  /// Background color for the on-screen preview.
   final Color backgroundColor;
+
+  /// Shows the Clear/Cancel/Apply controls under the preview.
   final bool showControls;
+
+  /// Automatically connect to the device when the widget is created.
   final bool autoConnect;
+
+  /// Automatically disconnect from the device when the widget is disposed.
   final bool autoDisconnect;
+
+  /// Shows an idle screen on the device between sessions.
   final bool showDeviceIdleScreen;
+
+  /// Title text shown on the device idle screen.
   final String deviceIdleTitle;
+
+  /// Subtitle text shown on the device idle screen.
   final String deviceIdleSubtitle;
+
+  /// Title text shown on the device signature screen.
   final String deviceTitle;
+
+  /// Hint text shown inside the device signature box.
   final String deviceHint;
+
+  /// Label for the device clear button.
   final String deviceClearLabel;
+
+  /// Label for the device cancel button.
   final String deviceCancelLabel;
+
+  /// Label for the device apply button.
   final String deviceApplyLabel;
 
   @override
   State<WacomSignaturePad> createState() => WacomSignaturePadState();
 }
 
+/// State for [WacomSignaturePad], exposed for controller access.
 class WacomSignaturePadState extends State<WacomSignaturePad> {
   final WacomSignaturePadNative _native = WacomSignaturePadNative();
   final List<List<Offset>> _strokes = [];
@@ -74,9 +116,13 @@ class WacomSignaturePadState extends State<WacomSignaturePad> {
   bool _isCompleting = false;
   bool _isCancelling = false;
 
+  /// Whether the pad currently has any ink.
   bool get hasInk => _strokes.isNotEmpty || _currentStroke.isNotEmpty;
+
+  /// Whether the device is currently connected.
   bool get isConnected => _isConnected;
 
+  /// Checks if a compatible device is available without connecting.
   Future<bool> detectDevice() async {
     return _native.detectDevice();
   }
@@ -110,6 +156,7 @@ class WacomSignaturePadState extends State<WacomSignaturePad> {
     super.dispose();
   }
 
+  /// Connects to the device and configures the signature screen.
   Future<void> connect() async {
     if (!Platform.isWindows) {
       throw UnsupportedError('flutter_wacom_signature_pad supports Windows only.');
@@ -133,6 +180,7 @@ class WacomSignaturePadState extends State<WacomSignaturePad> {
     }
   }
 
+  /// Disconnects from the device and clears device UI state.
   Future<void> disconnect() async {
     await _penSubscription?.cancel();
     _penSubscription = null;
@@ -336,6 +384,7 @@ class WacomSignaturePadState extends State<WacomSignaturePad> {
     );
   }
 
+  /// Clears the signature when invoked from the controller.
   Future<void> clearFromController() async {
     _clear();
   }
@@ -451,6 +500,7 @@ class WacomSignaturePadState extends State<WacomSignaturePad> {
     }
   }
 
+  /// Renders the current signature to PNG bytes.
   Future<Uint8List> renderPngBytes() async {
     final recorder = ui.PictureRecorder();
     final canvas = Canvas(
@@ -632,7 +682,9 @@ class _SignaturePainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
 
+/// Device coordinate and screen dimensions reported by the tablet.
 class WacomDeviceCapabilities {
+  /// Creates a set of device capabilities.
   WacomDeviceCapabilities({
     required this.maxX,
     required this.maxY,
@@ -640,13 +692,22 @@ class WacomDeviceCapabilities {
     required this.screenHeight,
   });
 
+  /// Maximum X coordinate reported by the tablet.
   final double maxX;
+
+  /// Maximum Y coordinate reported by the tablet.
   final double maxY;
+
+  /// Device screen width in pixels.
   final double screenWidth;
+
+  /// Device screen height in pixels.
   final double screenHeight;
 }
 
+/// A pen event emitted by the device.
 class WacomPenEvent {
+  /// Creates a pen event.
   WacomPenEvent({
     required this.x,
     required this.y,
@@ -654,12 +715,20 @@ class WacomPenEvent {
     required this.sw,
   });
 
+  /// Raw X coordinate reported by the device.
   final double x;
+
+  /// Raw Y coordinate reported by the device.
   final double y;
+
+  /// Pen pressure value reported by the device.
   final double pressure;
+
+  /// Switch state (buttons/eraser) reported by the device.
   final int sw;
 }
 
+/// Low-level bridge to the Windows platform channels.
 class WacomSignaturePadNative {
   static const MethodChannel _methodChannel =
       MethodChannel('flutter_wacom_signature_pad/methods');
