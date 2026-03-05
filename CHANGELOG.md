@@ -1,3 +1,7 @@
+## 0.1.3
+
+* Bump version for pub.dev release.
+
 ## 0.1.2
 
 * Refresh documentation and metadata for the package release.
