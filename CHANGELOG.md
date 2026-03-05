@@ -1,3 +1,7 @@
+## 0.1.2
+
+* Refresh documentation and metadata for the package release.
+
 ## 0.1.1
 
 * Add API documentation and publisher info.
