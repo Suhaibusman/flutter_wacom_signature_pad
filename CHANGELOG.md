@@ -1,3 +1,8 @@
+## 0.1.4
+
+* Add updated PDF signing integration support for the package app example.
+* Add Flutter 3.38.5 compatibility constraints.
+
 ## 0.1.3
 
 * Bump version for pub.dev release.
