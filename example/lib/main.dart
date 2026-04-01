@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_wacom_signature_pad/flutter_wacom_signature_pad.dart';
 
-import 'pdf_signature_screen.dart';
-
 void main() {
   runApp(const WacomTestApp());
 }

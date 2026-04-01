@@ -1,6 +1,6 @@
 name: flutter_wacom_signature_pad
 description: "Windows-only Flutter plugin for Wacom STU-540 signature capture with PNG/Base64 output."
-version: 0.1.5
+version: 0.1.6
 homepage: https://github.com/suhaibusman/flutter_wacom_signature_pad
 repository: https://github.com/suhaibusman/flutter_wacom_signature_pad
 issue_tracker: https://github.com/suhaibusman/flutter_wacom_signature_pad/issues
@@ -12,6 +12,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  syncfusion_flutter_pdfviewer: ^28.2.0
+  syncfusion_flutter_pdf: ^28.2.0
+  http: ^1.2.0
+  path_provider: ^2.1.0
 
 dev_dependencies:
   flutter_test:

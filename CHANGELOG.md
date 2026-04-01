@@ -1,3 +1,12 @@
+## 0.1.6
+
+* Move `PdfSignatureScreen` into `lib/src/` and export it from the package barrel
+  file so it is available to consumers who install the package from pub.dev.
+* Add `syncfusion_flutter_pdfviewer`, `syncfusion_flutter_pdf`, `http`, and
+  `path_provider` as package dependencies (previously only listed in the example).
+* Fix circular-import error: `pdf_signature_screen.dart` now uses relative imports
+  for sibling package files instead of a self-referencing package import.
+
 ## 0.1.5
 
 * Add `PdfSignatureScreen` widget — load a PDF by URL, draw a signature box on
